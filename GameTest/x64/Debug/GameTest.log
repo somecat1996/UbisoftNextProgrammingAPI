@@ -1,13 +1,4 @@
-﻿  stdafx.cpp
-  app.cpp
-  main.cpp
-  SimpleController.cpp
-  SimpleSound.cpp
-  SimpleSprite.cpp
-  GameTest.cpp
-  miniaudio.cpp
-  stb_image.cpp
-  正在生成代码...
-  GameTest.vcxproj -> C:\Users\36915\OneDrive\UbisoftNEXT\2025\Programming\API\x64\Debug\GameTest.exe
-  C:\Users\36915\OneDrive\UbisoftNEXT\2025\Programming\API\\GameTest\glut\bin\x64\freeglut.dll
+﻿  GameTest.cpp
+  GameTest.vcxproj -> D:\code\C++\UbisoftNextProgrammingAPI\x64\Debug\GameTest.exe
+  D:\code\C++\UbisoftNextProgrammingAPI\\GameTest\glut\bin\x64\freeglut.dll
   复制了 1 个文件

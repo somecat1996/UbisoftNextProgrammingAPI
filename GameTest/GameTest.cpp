@@ -15,6 +15,7 @@
 // Example data....
 //------------------------------------------------------------------------
 CSimpleSprite *testSprite;
+CSimpleSprite* blockSprite;
 enum
 {
 	ANIM_FORWARDS,
@@ -31,15 +32,17 @@ void Init()
 {
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	testSprite = App::CreateSprite(".\\TestData\\Test.bmp", 8, 4);
+	/*testSprite = App::CreateSprite(".\\TestData\\Test.bmp", 8, 4);
 	testSprite->SetPosition(400.0f, 400.0f);
 	const float speed = 1.0f / 15.0f;
 	testSprite->CreateAnimation(ANIM_BACKWARDS, speed, { 0,1,2,3,4,5,6,7 });
 	testSprite->CreateAnimation(ANIM_LEFT, speed, { 8,9,10,11,12,13,14,15 });
 	testSprite->CreateAnimation(ANIM_RIGHT, speed, { 16,17,18,19,20,21,22,23 });
 	testSprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
-	testSprite->SetScale(1.0f);
+	testSprite->SetScale(1.0f);*/
 	//------------------------------------------------------------------------
+	blockSprite = App::CreateSprite(".\\TestData\\TestBlock.png", 1, 1);
+	blockSprite->SetScale(1.0f);
 }
 
 //------------------------------------------------------------------------
@@ -50,7 +53,7 @@ void Update(const float deltaTime)
 {
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	testSprite->Update(deltaTime);
+	/*testSprite->Update(deltaTime);
 	if (App::GetController().GetLeftThumbStickX() > 0.5f)
 	{
 		testSprite->SetAnimation(ANIM_RIGHT);
@@ -102,18 +105,18 @@ void Update(const float deltaTime)
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
 	{
 		testSprite->SetAnimation(-1);
-	}
+	}*/
 	//------------------------------------------------------------------------
 	// Sample Sound.
 	//------------------------------------------------------------------------
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
+	/*if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
 	{
 		App::PlaySound(".\\TestData\\Test.wav", true);
 	}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_X, true))
 	{
 		App::StopSound(".\\TestData\\Test.wav");
-	}
+	}*/
 }
 
 //------------------------------------------------------------------------
@@ -122,20 +125,28 @@ void Update(const float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {	
+	for (int i = 5; i < 30; i++)
+	{
+		for (int j = 30; j >  10; j--)
+		{
+			blockSprite->SetPosition(32.0f * i, 20.0f * j);
+			blockSprite->Draw();
+		}
+	}
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	testSprite->Draw();
+	// testSprite->Draw();
 	//------------------------------------------------------------------------
 
 	//------------------------------------------------------------------------
 	// Example Text.
 	//------------------------------------------------------------------------
-	App::Print(100, 100, "Sample Text");
+	// App::Print(100, 100, "Sample Text");
 
 	//------------------------------------------------------------------------
 	// Example Line Drawing.
 	//------------------------------------------------------------------------
-	static float a = 0.0f;
+	/*static float a = 0.0f;
 	const float r = 1.0f;
 	float g = 1.0f;
 	float b = 1.0f;
@@ -150,7 +161,7 @@ void Render()
 		g = (float)i / 20.0f;
 		b = (float)i / 20.0f;
 		App::DrawLine(sx, sy, ex, ey, r, g, b);
-	}
+	}*/
 }
 //------------------------------------------------------------------------
 // Add your shutdown code here. Called when the APP_QUIT_KEY is pressed.
@@ -160,6 +171,6 @@ void Shutdown()
 {	
 	//------------------------------------------------------------------------
 	// Example Sprite Code....
-	delete testSprite;
+	// delete testSprite;
 	//------------------------------------------------------------------------
 }
