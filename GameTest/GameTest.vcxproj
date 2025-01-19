@@ -186,8 +186,10 @@
     <ClInclude Include="App\SimpleController.h" />
     <ClInclude Include="App\SimpleSound.h" />
     <ClInclude Include="App\SimpleSprite.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="GolfBall.h" />
     <ClInclude Include="miniaudio\miniaudio.h" />
+    <ClInclude Include="PlayBoard.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -198,9 +200,11 @@
     <ClCompile Include="App\SimpleController.cpp" />
     <ClCompile Include="App\SimpleSound.cpp" />
     <ClCompile Include="App\SimpleSprite.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="GolfBall.cpp" />
     <ClCompile Include="miniaudio\miniaudio.cpp" />
+    <ClCompile Include="PlayBoard.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

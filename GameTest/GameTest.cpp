@@ -9,6 +9,7 @@
 #include <math.h>  
 //------------------------------------------------------------------------
 #include "app\app.h"
+#include "GolfBall.h"
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -16,6 +17,7 @@
 //------------------------------------------------------------------------
 CSimpleSprite *testSprite;
 CSimpleSprite* blockSprite;
+CGolfBall* golfBall;
 enum
 {
 	ANIM_FORWARDS,
@@ -41,8 +43,11 @@ void Init()
 	testSprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
 	testSprite->SetScale(1.0f);*/
 	//------------------------------------------------------------------------
+	// Initiate block sprite
 	blockSprite = App::CreateSprite(".\\TestData\\TestBlock.png", 1, 1);
 	blockSprite->SetScale(1.0f);
+	// Initiate golf ball
+	golfBall = new CGolfBall();
 }
 
 //------------------------------------------------------------------------

@@ -24,9 +24,9 @@
     <ClCompile Include="miniaudio\miniaudio.cpp">
       <Filter>API\third_party\miniaudio</Filter>
     </ClCompile>
-    <ClCompile Include="GolfBall.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
+    <ClCompile Include="PlayBoard.cpp" />
+    <ClCompile Include="GolfBall.cpp" />
+    <ClCompile Include="Common.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -57,9 +57,9 @@
     <ClInclude Include="miniaudio\miniaudio.h">
       <Filter>API\third_party\miniaudio</Filter>
     </ClInclude>
-    <ClInclude Include="GolfBall.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
+    <ClInclude Include="PlayBoard.h" />
+    <ClInclude Include="GolfBall.h" />
+    <ClInclude Include="Common.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="API">
@@ -73,9 +73,6 @@
     </Filter>
     <Filter Include="API\third_party\stb_image">
       <UniqueIdentifier>{61cfc19b-c57e-4021-b530-bac172fcba86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{0767ef69-864f-4bf8-9304-16291f52fb6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
