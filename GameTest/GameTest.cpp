@@ -9,22 +9,24 @@
 #include <math.h>  
 //------------------------------------------------------------------------
 #include "app\app.h"
+#include "Common.h"
 #include "GolfBall.h"
+#include "PlayBoard.h"
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
 // Example data....
 //------------------------------------------------------------------------
 CSimpleSprite *testSprite;
-CSimpleSprite* blockSprite;
+CSimpleSprite* blockSpriteNormal;
+CSimpleSprite* blockSpriteBlock;
+CSimpleSprite* blockSpriteStart;
+CSimpleSprite* blockSpriteExit;
+CSimpleSprite* blockSpriteUp;
+CSimpleSprite* blockSpriteDown;
+CSimpleSprite* blockSpriteLeft;
+CSimpleSprite* blockSpriteRight;
 CGolfBall* golfBall;
-enum
-{
-	ANIM_FORWARDS,
-	ANIM_BACKWARDS,
-	ANIM_LEFT,
-	ANIM_RIGHT,
-};
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -33,19 +35,24 @@ enum
 void Init()
 {
 	//------------------------------------------------------------------------
-	// Example Sprite Code....
-	/*testSprite = App::CreateSprite(".\\TestData\\Test.bmp", 8, 4);
-	testSprite->SetPosition(400.0f, 400.0f);
-	const float speed = 1.0f / 15.0f;
-	testSprite->CreateAnimation(ANIM_BACKWARDS, speed, { 0,1,2,3,4,5,6,7 });
-	testSprite->CreateAnimation(ANIM_LEFT, speed, { 8,9,10,11,12,13,14,15 });
-	testSprite->CreateAnimation(ANIM_RIGHT, speed, { 16,17,18,19,20,21,22,23 });
-	testSprite->CreateAnimation(ANIM_FORWARDS, speed, { 24,25,26,27,28,29,30,31 });
-	testSprite->SetScale(1.0f);*/
-	//------------------------------------------------------------------------
 	// Initiate block sprite
-	blockSprite = App::CreateSprite(".\\TestData\\TestBlock.png", 1, 1);
-	blockSprite->SetScale(1.0f);
+	blockSpriteNormal = App::CreateSprite(".\\TestData\\TestBlockNormal.png", 1, 1);
+	blockSpriteBlock = App::CreateSprite(".\\TestData\\TestBlockBlock.png", 1, 1);
+	blockSpriteStart = App::CreateSprite(".\\TestData\\TestBlockStart.png", 1, 1);
+	blockSpriteExit = App::CreateSprite(".\\TestData\\TestBlockTarget.png", 1, 1);
+	blockSpriteUp = App::CreateSprite(".\\TestData\\TestBlockUp.png", 1, 1);
+	blockSpriteDown = App::CreateSprite(".\\TestData\\TestBlockDown.png", 1, 1);
+	blockSpriteLeft = App::CreateSprite(".\\TestData\\TestBlockLeft.png", 1, 1);
+	blockSpriteRight = App::CreateSprite(".\\TestData\\TestBlockRight.png", 1, 1);
+	blockSpriteNormal->SetScale(1.0f);
+	blockSpriteBlock->SetScale(1.0f);
+	blockSpriteStart->SetScale(1.0f);
+	blockSpriteExit->SetScale(1.0f);
+	blockSpriteUp->SetScale(1.0f);
+	blockSpriteDown->SetScale(1.0f);
+	blockSpriteLeft->SetScale(1.0f);
+	blockSpriteRight->SetScale(1.0f);
+
 	// Initiate golf ball
 	golfBall = new CGolfBall();
 }
@@ -57,71 +64,27 @@ void Init()
 void Update(const float deltaTime)
 {
 	//------------------------------------------------------------------------
-	// Example Sprite Code....
-	/*testSprite->Update(deltaTime);
+	golfBall->Update(deltaTime);
 	if (App::GetController().GetLeftThumbStickX() > 0.5f)
 	{
-		testSprite->SetAnimation(ANIM_RIGHT);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		x += 1.0f;
-		testSprite->SetPosition(x, y);
+		golfBall->Move(MovingDirection::M_Right, true);
 	}
 	if (App::GetController().GetLeftThumbStickX() < -0.5f)
 	{
-		testSprite->SetAnimation(ANIM_LEFT);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		x -= 1.0f;
-		testSprite->SetPosition(x, y);
+		golfBall->Move(MovingDirection::M_Left, true);
 	}
-    if (App::GetController().GetLeftThumbStickY() > 0.5f)
-    {
-        testSprite->SetAnimation(ANIM_FORWARDS);
-        float x, y;
-        testSprite->GetPosition(x, y);
-        y += 1.0f;
-        testSprite->SetPosition(x, y);
-    }
+	if (App::GetController().GetLeftThumbStickY() > 0.5f)
+	{
+		golfBall->Move(MovingDirection::M_Up, true);
+	}
 	if (App::GetController().GetLeftThumbStickY() < -0.5f)
 	{
-		testSprite->SetAnimation(ANIM_BACKWARDS);
-		float x, y;
-		testSprite->GetPosition(x, y);
-		y -= 1.0f;
-		testSprite->SetPosition(x, y);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_UP, false))
-	{
-		testSprite->SetScale(testSprite->GetScale() + 0.1f);
+		golfBall->Move(MovingDirection::M_Down, true);
 	}
 	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_DOWN, false))
 	{
-		testSprite->SetScale(testSprite->GetScale() - 0.1f);
+		golfBall->Next();
 	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_LEFT, false))
-	{
-		testSprite->SetAngle(testSprite->GetAngle() + 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_DPAD_RIGHT, false))
-	{
-		testSprite->SetAngle(testSprite->GetAngle() - 0.1f);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_A, true))
-	{
-		testSprite->SetAnimation(-1);
-	}*/
-	//------------------------------------------------------------------------
-	// Sample Sound.
-	//------------------------------------------------------------------------
-	/*if (App::GetController().CheckButton(XINPUT_GAMEPAD_B, true))
-	{
-		App::PlaySound(".\\TestData\\Test.wav", true);
-	}
-	if (App::GetController().CheckButton(XINPUT_GAMEPAD_X, true))
-	{
-		App::StopSound(".\\TestData\\Test.wav");
-	}*/
 }
 
 //------------------------------------------------------------------------
@@ -130,43 +93,63 @@ void Update(const float deltaTime)
 //------------------------------------------------------------------------
 void Render()
 {	
-	for (int i = 5; i < 30; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		for (int j = 30; j >  10; j--)
+		for (int j = 0; j < 10; j++)
 		{
-			blockSprite->SetPosition(32.0f * i, 20.0f * j);
-			blockSprite->Draw();
+			float x, y;
+			int tileType;
+			Common::GetScreenPosition(j, i, &x, &y);
+			tileType = golfBall->m_playboard->GetValue(j, i);
+			switch (tileType)
+			{
+			case 0:
+				blockSpriteNormal->SetPosition(x, y);
+				blockSpriteNormal->Draw();
+				break;
+			case 1:
+				blockSpriteBlock->SetPosition(x, y);
+				blockSpriteBlock->Draw();
+				break;
+			case 2:
+				blockSpriteStart->SetPosition(x, y);
+				blockSpriteStart->Draw();
+				break;
+			case 3:
+				blockSpriteExit->SetPosition(x, y);
+				blockSpriteExit->Draw();
+				break;
+			case 4:
+				blockSpriteUp->SetPosition(x, y);
+				blockSpriteUp->Draw();
+				break;
+			case 5:
+				blockSpriteDown->SetPosition(x, y);
+				blockSpriteDown->Draw();
+				break;
+			case 6:
+				blockSpriteLeft->SetPosition(x, y);
+				blockSpriteLeft->Draw();
+				break;
+			case 7:
+				blockSpriteRight->SetPosition(x, y);
+				blockSpriteRight->Draw();
+				break;
+			default:
+				blockSpriteNormal->SetPosition(x, y);
+				blockSpriteNormal->Draw();
+				break;
+			}
+		}
+		if (golfBall->m_row == i - 1 && golfBall->m_direction == M_Down && golfBall->m_status == Moving)
+		{
+			golfBall->Draw();
+		}
+		else if (golfBall->m_row == i)
+		{
+			golfBall->Draw();
 		}
 	}
-	//------------------------------------------------------------------------
-	// Example Sprite Code....
-	// testSprite->Draw();
-	//------------------------------------------------------------------------
-
-	//------------------------------------------------------------------------
-	// Example Text.
-	//------------------------------------------------------------------------
-	// App::Print(100, 100, "Sample Text");
-
-	//------------------------------------------------------------------------
-	// Example Line Drawing.
-	//------------------------------------------------------------------------
-	/*static float a = 0.0f;
-	const float r = 1.0f;
-	float g = 1.0f;
-	float b = 1.0f;
-	a += 0.1f;
-	for (int i = 0; i < 20; i++)
-	{
-
-		const float sx = 200 + sinf(a + i * 0.1f) * 60.0f;
-		const float sy = 200 + cosf(a + i * 0.1f) * 60.0f;
-		const float ex = 700 - sinf(a + i * 0.1f) * 60.0f;
-		const float ey = 700 - cosf(a + i * 0.1f) * 60.0f;
-		g = (float)i / 20.0f;
-		b = (float)i / 20.0f;
-		App::DrawLine(sx, sy, ex, ey, r, g, b);
-	}*/
 }
 //------------------------------------------------------------------------
 // Add your shutdown code here. Called when the APP_QUIT_KEY is pressed.
@@ -175,7 +158,13 @@ void Render()
 void Shutdown()
 {	
 	//------------------------------------------------------------------------
-	// Example Sprite Code....
-	// delete testSprite;
+	delete blockSpriteNormal;
+	delete blockSpriteBlock;
+	delete blockSpriteStart;
+	delete blockSpriteExit;
+	delete blockSpriteUp;
+	delete blockSpriteDown;
+	delete blockSpriteLeft;
+	delete blockSpriteRight;
 	//------------------------------------------------------------------------
 }

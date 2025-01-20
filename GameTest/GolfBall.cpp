@@ -12,52 +12,175 @@
 #include "GolfBall.h"
 //------------------------------------------------------------------------
 
-CGolfBall::CGolfBall(const int column = 0, const int row = 0)
+CGolfBall::CGolfBall()
 {
-	SetPosition(column, row);
-	m_direction = Up;
+	m_direction = MovingDirection::M_Up;
 	m_status = Stop;
 	m_sprite = App::CreateSprite(".\\TestData\\GolfBall.png", 1, 1);
+
+	m_playboard = new CPlayBoard(".\\TestData\\level" + std::to_string(m_level) + ".txt");
+	SetPosition(m_playboard->m_startx, m_playboard->m_starty);
+	m_currentmove = 0;
+	m_finish = false;
+}
+
+CGolfBall::~CGolfBall()
+{
+	delete m_sprite;
 }
 
 void CGolfBall::Update(const float dt)
 {
+	float x, y;
 	if (m_status == Stop)
 	{
-
+		Common::GetScreenPosition(m_column, m_row, &x, &y);
+		m_sprite->SetPosition(x, y);
 	}
 	else
 	{
+		m_sprite->GetPosition(x, y);
 		switch (m_direction)
 		{
-		case Up:
+		case MovingDirection::M_Up:
+			y += m_speed * dt;
 			break;
-		case Down:
+		case MovingDirection::M_Down:
+			y -= m_speed * dt;
 			break;
-		case Left:
+		case MovingDirection::M_Left:
+			x -= m_speed * dt;
 			break;
-		case Right:
+		case MovingDirection::M_Right:
+			x += m_speed * dt;
 			break;
 		default:
 			break;
+		}
+		m_sprite->SetPosition(x, y);
+		float targetX, targetY;
+		Common::GetScreenPosition(m_targetcolumn, m_targetrow, &targetX, &targetY);
+		if ((x - targetX) * (x - targetX) + (y - targetY) * (y - targetY) < 0.1f)
+		{
+			SetPosition(m_targetcolumn, m_targetrow);
+			int currentTile = m_playboard->GetValue(m_targetcolumn, m_targetrow);
+
+			m_status = Stop;
+			switch (currentTile)
+			{
+			case 0:
+				Move(m_direction);
+				break;
+			case 1:
+				break;
+			case 2:
+				Move(m_direction);
+				break;
+			case 3:
+				m_finish = true;
+				break;
+			case 4:
+				Move(MovingDirection::M_Up);
+				break;
+			case 5:
+				Move(MovingDirection::M_Down);
+				break;
+			case 6:
+				Move(MovingDirection::M_Left);
+				break;
+			case 7:
+				Move(MovingDirection::M_Right);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
 
 void CGolfBall::Draw()
 {
+	m_sprite->Draw();
 
+	App::Print(100, 100, "Current Moves: ");
+	App::Print(300, 100, std::to_string(m_currentmove).c_str());
+	App::Print(500, 100, "Ideal Moves: ");
+	App::Print(700, 100, std::to_string(m_playboard->m_bestmoves).c_str());
+	if (m_finish)
+	{
+		if (m_currentmove > m_playboard->m_bestmoves)
+		{
+			App::Print(100, 200, "You can do better! Press down arrow to restart.");
+		}
+		else
+		{
+			App::Print(100, 200, "You win! Press down arrow to continue.");
+		}
+	}
 }
 
-bool CGolfBall::Move(MovingDirection direction)
+void CGolfBall::Move(MovingDirection direction, bool countMove)
 {
-	if (m_status == Stop)
+	if (!m_finish && m_status == Stop)
 	{
-		m_status = Moving;
-		return true;
+		switch (direction)
+		{
+		case M_Up:
+			m_targetrow = m_row - 1;
+			m_targetcolumn = m_column;
+			break;
+		case M_Down:
+			m_targetrow = m_row + 1;
+			m_targetcolumn = m_column;
+			break;
+		case M_Left:
+			m_targetcolumn = m_column - 1;
+			m_targetrow = m_row;
+			break;
+		case M_Right:
+			m_targetcolumn = m_column + 1;
+			m_targetrow = m_row;
+			break;
+		default:
+			break;
+		}
+		if (0 <= m_targetrow && m_targetrow <= 9 && 0 <= m_targetcolumn && m_targetcolumn <= 9)
+		{
+			int nextTile = m_playboard->GetValue(m_targetcolumn, m_targetrow);
+			if (nextTile != TileType::Block)
+			{
+				m_status = Moving;
+				m_direction = direction;
+				if (countMove)
+				{
+					m_currentmove += 1;
+				}
+			}
+		}
 	}
-	else
+}
+
+void CGolfBall::SetPosition(int x, int y)
+{
+	m_row = y;
+	m_column = x;
+}
+
+void CGolfBall::Next()
+{
+	if (m_finish)
 	{
-		return false;
+		if (m_currentmove <= m_playboard->m_bestmoves)
+		{
+			m_level += 1;
+			if (m_level > 3)
+			{
+				m_level = 0;
+			}
+		}
+		m_playboard = new CPlayBoard(".\\TestData\\level" + std::to_string(m_level) + ".txt");
+		SetPosition(m_playboard->m_startx, m_playboard->m_starty);
+		m_currentmove = 0;
+		m_finish = false;
 	}
 }

@@ -6,39 +6,37 @@
 #define _BALL_H
 //---------------------------------------------------------------------------------
 #include <windows.h> 
+#include <cmath>
+#include "PlayBoard.h"
+#include "Common.h"
 //---------------------------------------------------------------------------------
-enum MovingDirection
-{
-    Up,
-    Down,
-    Left,
-    Right
-};
-
-enum MovingStatus
-{
-    Moving,
-    Stop
-};
 //-----------------------------------------------------------------------------
 // CGolfBall
 //-----------------------------------------------------------------------------
 class CGolfBall
 {
 public:
-    CGolfBall(const int column = 0, const int row = 0);
-    void Update(const float dt);
-    void Draw();
-    void SetPosition(const int x, const int y) { m_column = x; m_row = y; }
-    bool Move(MovingDirection direction);
-
-private:
     int   m_column = 0;
     int   m_row = 0;
-    float m_speed = 5.0f;
+    int   m_targetcolumn = 0;
+    int   m_targetrow = 0;
     MovingDirection m_direction;
+    CPlayBoard* m_playboard;
     MovingStatus m_status;
+    CGolfBall();
+    ~CGolfBall();
+    void Update(const float dt);
+    void Draw();
+    void SetPosition(int x, int y);
+    void Move(MovingDirection direction, bool countMove = false);
+    void Next();
+
+private:
+    float m_speed = 0.1f;
     CSimpleSprite* m_sprite;
+    int m_level = 0;
+    int m_currentmove;
+    bool m_finish;
 };
 
 #endif
