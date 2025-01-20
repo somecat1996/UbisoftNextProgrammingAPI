@@ -11,17 +11,20 @@
 #include "../app/app.h"
 #include "GolfBall.h"
 //------------------------------------------------------------------------
-
 CGolfBall::CGolfBall()
 {
+	// Initialize data
 	m_direction = MovingDirection::M_Up;
 	m_status = Stop;
-	m_sprite = App::CreateSprite(".\\TestData\\GolfBall.png", 1, 1);
-
-	m_playboard = new CPlayBoard(".\\TestData\\level" + std::to_string(m_level) + ".txt");
-	SetPosition(m_playboard->m_startx, m_playboard->m_starty);
 	m_currentmove = 0;
 	m_finish = false;
+
+	// Initialize sprite
+	m_sprite = App::CreateSprite(".\\TestData\\GolfBall.png", 1, 1);
+
+	// Initialize play board
+	m_playboard = new CPlayBoard(".\\TestData\\level" + std::to_string(m_level) + ".txt");
+	SetPosition(m_playboard->m_startx, m_playboard->m_starty);
 }
 
 CGolfBall::~CGolfBall()
@@ -39,6 +42,7 @@ void CGolfBall::Update(const float dt)
 	}
 	else
 	{
+		// Move golf ball
 		m_sprite->GetPosition(x, y);
 		switch (m_direction)
 		{
@@ -57,6 +61,7 @@ void CGolfBall::Update(const float dt)
 		default:
 			break;
 		}
+		// Check whether golf ball reaches next tile
 		m_sprite->SetPosition(x, y);
 		float targetX, targetY;
 		Common::GetScreenPosition(m_targetcolumn, m_targetrow, &targetX, &targetY);
@@ -66,6 +71,7 @@ void CGolfBall::Update(const float dt)
 			int currentTile = m_playboard->GetValue(m_targetcolumn, m_targetrow);
 
 			m_status = Stop;
+			// Change golf ball move direction based on current tile
 			switch (currentTile)
 			{
 			case 0:
@@ -77,6 +83,7 @@ void CGolfBall::Update(const float dt)
 				Move(m_direction);
 				break;
 			case 3:
+				// Level complete if golf ball reaches target
 				m_finish = true;
 				break;
 			case 4:
@@ -100,8 +107,10 @@ void CGolfBall::Update(const float dt)
 
 void CGolfBall::Draw()
 {
+	// Draw ball sprite
 	m_sprite->Draw();
 
+	// Draw game info
 	App::Print(100, 100, "Current Moves: ");
 	App::Print(300, 100, std::to_string(m_currentmove).c_str());
 	App::Print(500, 100, "Ideal Moves: ");
@@ -123,6 +132,7 @@ void CGolfBall::Move(MovingDirection direction, bool countMove)
 {
 	if (!m_finish && m_status == Stop)
 	{
+		// Set target tile position
 		switch (direction)
 		{
 		case M_Up:

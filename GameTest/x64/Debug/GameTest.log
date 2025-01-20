@@ -1,5 +1,9 @@
-﻿  GameTest.cpp
+﻿  Common.cpp
+C:\Users\36915\Documents\Github\Unity\UbisoftNextProgrammingAPI\GameTest\Common.cpp(22,32): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+C:\Users\36915\Documents\Github\Unity\UbisoftNextProgrammingAPI\GameTest\Common.cpp(23,43): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+  GameTest.cpp
   GolfBall.cpp
+  PlayBoard.cpp
   正在生成代码...
   GameTest.vcxproj -> C:\Users\36915\Documents\Github\Unity\UbisoftNextProgrammingAPI\x64\Debug\GameTest.exe
   C:\Users\36915\Documents\Github\Unity\UbisoftNextProgrammingAPI\\GameTest\glut\bin\x64\freeglut.dll

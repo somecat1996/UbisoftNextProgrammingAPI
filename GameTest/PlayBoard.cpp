@@ -4,6 +4,8 @@
 CPlayBoard::CPlayBoard(std::string fileName)
 {
     AllocateMemory();
+
+    // Load data from file
     std::ifstream file(fileName);
     if (!file.is_open()) {
         std::cerr << "Cannot open file: " << fileName << std::endl;
@@ -45,6 +47,8 @@ void CPlayBoard::Reload(std::string fileName)
 {
     FreeMemory();
     AllocateMemory();
+
+    // Load data from file
     std::ifstream file(fileName);
     if (!file.is_open()) {
         std::cerr << "Cannot open file: " << fileName << std::endl;
